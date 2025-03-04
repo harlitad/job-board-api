@@ -23,5 +23,25 @@ func (r *JobRepositoryImpl) Create(job *domain.JobPost) error {
 func (r *JobRepositoryImpl) GetAll() ([]domain.JobPost, error) {
 	var jobs []domain.JobPost
 	err := r.DB.Find(&jobs).Error
-	return jobs, err
+	if err != nil {
+		return nil, err
+	}
+	return jobs, nil
+}
+
+func (r *JobRepositoryImpl) GetByID(id int) (*domain.JobPost, error) {
+	var job domain.JobPost
+	err := r.DB.First(&job, id).Error
+	if err != nil {
+		return nil, err
+	}
+	return &job, nil
+}
+
+func (r *JobRepositoryImpl) Update(job *domain.JobPost) error {
+	return r.DB.Save(job).Error
+}
+
+func (r *JobRepositoryImpl) Delete(id int) error {
+	return r.DB.Delete(&domain.JobPost{}, id).Error
 }

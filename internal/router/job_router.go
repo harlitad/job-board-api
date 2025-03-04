@@ -10,4 +10,7 @@ func SetupJobRoutes(api fiber.Router, jobService service.JobService) {
 	jobRoutes := api.Group("/jobs")
 	jobRoutes.Post("/", rest.CreateJobPostHandler(jobService))
 	jobRoutes.Get("/", rest.GetJobPostsHandler(jobService))
+	jobRoutes.Get("/:id", rest.GetJobByIDHandler(jobService))
+	jobRoutes.Put("/:id", rest.UpdateJobHandler(jobService))
+	jobRoutes.Delete("/:id", rest.DeleteJobHandler(jobService))
 }
